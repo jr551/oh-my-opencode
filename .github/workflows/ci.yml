@@ -13,7 +13,7 @@ concurrency:
 jobs:
   # Block PRs targeting master branch
   block-master-pr:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, supermicro-server]
     if: github.event_name == 'pull_request'
     steps:
       - name: Check PR target branch
@@ -31,7 +31,7 @@ jobs:
           fi
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, supermicro-server]
     steps:
       - uses: actions/checkout@v4
 
@@ -101,7 +101,7 @@ jobs:
             src/features/skill-mcp-manager
 
   typecheck:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, supermicro-server]
     steps:
       - uses: actions/checkout@v4
 
@@ -118,7 +118,7 @@ jobs:
         run: bun run typecheck
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, supermicro-server]
     needs: [test, typecheck]
     permissions:
       contents: write
@@ -158,7 +158,7 @@ jobs:
           fi
 
   draft-release:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, supermicro-server]
     needs: [build]
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
     permissions:
